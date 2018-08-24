@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+  annotations:
+spec:
+  rules:
+    - host: privileged-cluster-3-bfa45254-9c2d-11e8-9f9e-060011e8e588.9e425f07-d492-417d-97c6-867e83efa076.cascade-domain.com
+      http:
+        paths:
+        - backend:
+            serviceName: fitcycle-server
+            servicePort: 8000
+          path: /
+        - backend:
+            serviceName: fitcycle-api
+            servicePort: 5000
+          path: /api/v1.0/signups
+
