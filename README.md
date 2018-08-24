@@ -113,7 +113,9 @@ To watch the pods create and run, run the 'kubectl get pods -w' command while th
 
 To ensure Prometheus in correctly deployed, navigate to the following in a browser:
 
-><cluster name>:34010
+```yaml
+<cluster name>:34010
+```
 
 This should bring up the Prometheus UI. Navigate to 'Status' -> Targets in the upper bar to verify that all of the components are reporting correctly.
 
