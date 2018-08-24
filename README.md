@@ -1,63 +1,99 @@
-# container-fitcycle
+# Setup a VKE Cluster
 
-Instructions on getting this application up in a cluster:
+## Login to VKE UI and Download the CLI package
 
-All instructions below are based in whatever your default namespace is. If you want to add to a specific namespace then add -n=NAMESPACE
+Download the CLI package from the button in the bottom left corner of the screen labeled 'Download CLI' and slecting the correct operating system. Make sure it has execute permissions.
 
-The set up below is also done with NodePort. 
+## Login to the VKE CLI
 
-## Bring up the Database:
-
-kubectl create secret generic mysql-pass --from-literal=password=YOUR_PASSWORD
-
-kubectl create -f mysql-configmap.yaml
-
-kubectl create -f fitcycle-percona-total.yaml
-
-## Bring up the API server
-
-kubectl create -f api-server-local-total.yaml
-
-## Ensure the NODE PORTS are exposed in AWS
-
-kubectl get services
-
-NOTE the port numbers for the services
+Use the following format, replacing organization-id with your organization ID and refresh-token with your refresh token.
 
 ```yaml
-NAME              TYPE           CLUSTER-IP       EXTERNAL-IP        PORT(S)          AGE
-fitcycle-mysql    ClusterIP      None             <none>             3306/TCP         20d
-fitcycle-server   LoadBalancer   100.69.2.61      a43b2d31e1612...   8000:31553/TCP   7d
-kubernetes        ClusterIP      100.64.0.1       <none>             443/TCP          80d
-local-fitcycle    LoadBalancer   100.69.146.247   a6e50fff01608...   5000:31159/TCP   7d
+vke account login -t *organization-id* -r *refresh-token*
 ```
 
-## Testing out the API
+The organization ID is available in the VKE UI by clicking on the box showing your username and organization name in the upper right portion of the screen. Please click on the Org ID to get the long form and use that long form in the command.
 
-In a separate machine (local computer connected to the internet) type in the following:
+For an API/refresh token, please click again on the box displaying your username and organization name. Then please click on the 'My Account' button.
+
+On the resulting page, please select 'API tokens' the third option in the horizontal navigation bar under 'My Account'. If you have an existing token, please copy and use it, otherwise please click the button labelled 'New Token' and then copy the result.
+
+## Create a cluster
+
+To create a VKE cluster, run the following command:
 
 ```yaml
-curl -i http://35.167.11.105:31159/api/v1.0/signups
+vke cluster create --name <name> --region <region>
 ```
 
-REPLACE THE IP ADDRESS AND THE PORT NUMBER WITH THE APPROPRIATE IP ADDRESS AND PORT FOR YOUR CLUSTER 
+For region please use the value directed by the staff (either us-west-2 or us-east-1)
 
-## Bring up application server
 
-kubectl create -f fitcycle-server-total.yaml
+## Get Kubectl and Helm
 
-## View the application server
+If it isn't already installed on your machine, please install the kubectl command line package for managing Kubernetes.
 
-Open up the node port in AWS
-go to IP ADDRESS:NODEPORT on a web browser
+Kubectl and be pulled down in a variety of ways, including from the VKE UI (on the page for a smartcluster, select actions and then select the correct operating system for your device).
 
-# Fitcycle connecting to RDS
+For Helm, please see the following page: [Helm](https://github.com/helm/helm)
 
-kubectl create -f ./rds/api-server-rds.yaml
+## Access the VKE Cluster
 
-kubectl create -f ./rds/fitcycle-server-rds.yaml
+To gain kubectl access to your VKE cluster via the command line use the following command:
 
-Follow the steps under viewing app server and testing the API
+```yaml
+vke cluster merge-kubectl-auth <cluster name>
+```
 
+This will authenticate kubectl to your VKE cluster and set the correct context to access that cluster.
+
+Correct funtionality can be verfied by successfully running 'kubectl get' commands against the cluster (kubectl get nodes, kubectl get pods, etc)
+
+# Install Fitcycle
+
+Fitcycle (maintained by Bill Shetti) is our test app. It is comprised of mutliple service (web fronted, mysql database, api server to read the database). We will install it using a simple script.
+
+## Get the Fitcycle repo
+
+For this workshop, please clone the git repo [here](https://github.com/dillson/vke-workshop) or download the files.
+
+## Run setup.sh
+
+Installing Fitcycle on a VKE cluster is easy via the included setup.sh script. To start, be sure that the following scripts (setup.sh, setingress.sh, setenv, and gethost.sh) are all executable on your machine.
+
+The run the setup.sh bash script with 2 arguments:
+
+```yaml
+./setup.sh <DB password> <cluster name>
+```
+
+The database password is entirely internal to the process, so use any value you like, even 'password'. The cluster name is not, this is the name of the VKE cluster created previously in these directions. 
+
+## Validate Fitcycle
+
+To validate Fitcycle, we'll check that the various components run as expected.
+
+First, get the cluster address:
+
+```yaml
+vke cluster show <cluster name> | grep Address:
+```
+
+The result of this command provides the base URL used to access exposed services within the cluster.
+
+To test, enter that URL with a trailing '/' into a web browser. This should bring up the Fitcycle web frontend page.
+
+Navingating to '<cluster address>/api/v1.0/signups' should return JSON readout of the sample record in the MySQL database.
+
+If you do not get these results, please ask the workshop staff for help.
+
+# Prometheus
+
+Prometheus, a Cloud Native Computing Foundation project, is a systems and service monitoring system. It collects metrics from configured targets at given intervals, evaluates rule expressions, displays the results, and can trigger alerts if some condition is observed to be true.
+
+## Install Prometheus from a Helm chart
+
+
+ 
 *Based on the Bill Shetti's contianer-fitcycle
 http://github.com/bshetti/container-fitcycle*
