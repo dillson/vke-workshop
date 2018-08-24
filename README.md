@@ -91,9 +91,37 @@ If you do not get these results, please ask the workshop staff for help.
 
 Prometheus, a Cloud Native Computing Foundation project, is a systems and service monitoring system. It collects metrics from configured targets at given intervals, evaluates rule expressions, displays the results, and can trigger alerts if some condition is observed to be true.
 
+## Initiailize Helm
+
+To setup Tiller (the cluster side component of Helm) in your VKE cluster, run the following command:
+
+```yaml
+helm init
+```
+
 ## Install Prometheus from a Helm chart
 
+To install Prometheus from the stable maintained Helm chart, we will run the following command:
 
- 
+```yaml
+helm install -n prometheus-release stable/prometheus --set server.service.type=NodePort,server.service.nodePort=30410
+```
+
+To watch the pods create and run, run the 'kubectl get pods -w' command while this completes
+
+## Validate the Prometheus Install
+
+To ensure Prometheus in correctly deployed, navigate to the following in a browser:
+
+><cluster name>:34010
+
+This should bring up the Prometheus UI. Navigate to 'Status' -> Targets in the upper bar to verify that all of the components are reporting correctly.
+
+Then go to 'Graph' in the top navigation bar, select a metric, and push the 'Add Graph' button. You should see both console return data and a basic graphical execution.
+
+# Grafana
+
+
+
 *Based on the Bill Shetti's contianer-fitcycle
 http://github.com/bshetti/container-fitcycle*
