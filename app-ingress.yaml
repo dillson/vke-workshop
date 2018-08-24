@@ -5,11 +5,11 @@ metadata:
   annotations:
 spec:
   rules:
-    - host: privileged-cluster-3-bfa45254-9c2d-11e8-9f9e-060011e8e588.9e425f07-d492-417d-97c6-867e83efa076.cascade-domain.com
+    - host: HOSTNAME
       http:
         paths:
         - backend:
-            serviceName: fitcycle-server
+            serviceName: fitcycle-web
             servicePort: 8000
           path: /
         - backend:
