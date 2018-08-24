@@ -68,10 +68,10 @@ items:
       - name: query-http
         port: 80
         protocol: TCP
-        nodePort: 30430
+        targetPort: 16686
     selector:
       jaeger-infra: jaeger-pod
-    type: NodePort
+    type: LoadBalancer
 - apiVersion: v1
   kind: Service
   metadata:
@@ -99,6 +99,34 @@ items:
 - apiVersion: v1
   kind: Service
   metadata:
+    name: jaeger-agent
+    labels:
+      app: jaeger
+      jaeger-infra: agent-service
+  spec:
+    ports:
+    - name: agent-zipkin-thrift
+      port: 5775
+      protocol: UDP
+      targetPort: 5775
+    - name: agent-compact
+      port: 6831
+      protocol: UDP
+      targetPort: 6831
+    - name: agent-binary
+      port: 6832
+      protocol: UDP
+      targetPort: 6832
+    - name: agent-configs
+      port: 5778
+      protocol: TCP
+      targetPort: 5778
+    clusterIP: None
+    selector:
+      jaeger-infra: jaeger-pod
+- apiVersion: v1
+  kind: Service
+  metadata:
     name: zipkin
     labels:
       app: jaeger
@@ -112,3 +140,4 @@ items:
     clusterIP: None
     selector:
       jaeger-infra: jaeger-pod
+
