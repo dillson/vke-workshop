@@ -59,5 +59,5 @@ kubectl create -f ./rds/fitcycle-server-rds.yaml
 
 Follow the steps under viewing app server and testing the API
 
-Based on the Bill Shetti's contianer-fitcycle
-http://github.com/bshetti/container-fitcycle
+*Based on the Bill Shetti's contianer-fitcycle
+http://github.com/bshetti/container-fitcycle*
