@@ -114,7 +114,7 @@ To watch the pods create and run, run the 'kubectl get pods -w' command while th
 To ensure Prometheus in correctly deployed, navigate to the following in a browser:
 
 ```yaml
-<cluster name>:34010
+http://<cluster address>:34010
 ```
 
 This should bring up the Prometheus UI. Navigate to 'Status' -> Targets in the upper bar to verify that all of the components are reporting correctly.
@@ -123,7 +123,63 @@ Then go to 'Graph' in the top navigation bar, select a metric, and push the 'Add
 
 # Grafana
 
+The open platform for beautiful analytics and monitoring
 
+## Installing Grafana from a Helm chart
+
+We will also be deploying Grafana from a stable maintained Helm chart. To do so, run the following command:
+
+```yaml
+helm install -n grafana-release stable/grafana --set service.type=NodePort,service.nodePort=30420
+```
+## Setup Grafana
+
+Now we'll need to setup the Grafana instance and configure it to use our Prometheus deployment as a datasource.
+
+First, we'll need to run the following command to get the admin password for Grafana:
+
+```yaml
+   kubectl get secret --namespace default grafana-release -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+```
+
+Please note this password down, as it will be needed shortly.
+
+To access the Grafana UI, navigate to this address in a browser:
+
+```yaml
+http://<cluster address>:30420
+```
+When you reach the login page, login with the username 'admin' and the password found in the previous step.
+
+### Add Prometheus as a datasource
+
+Once logged in to Grafana, the first step will be to configure Prometheus as a datasource. To do this, click 'Add data source' on the Grafana home dashboard.
+
+Once there, we'll need to configure a few parameters. 
+
+For 'Name', use something like 'Prometheus' or 'Prometheus-release'
+
+For 'Type' select 'Prometheus' from the drop down menu.
+
+For URL, enter the address your browsed to in order to access the Prometheus UI (http://<cluster address>:30410) 
+
+Press the 'Save & Test' button. You should see a green 'Data source is working' message pop up. The click the 'Back' button.
+
+## Importing a Dashboard
+
+To visualize the data Grafana can now query from Prometheus, we'll need a dashboard. The most straightforward way to do this is to import an existing one.
+
+We'll import the 'Kubernetes Cluster (Promethues)' dashboard from grafana.com by sekka1.
+
+To do this, please user the nav bar at the left edge of the Grafana UI to navigate to 'Dashboards' (the icon with 4 square panels) -> 'Manage'
+
+Once there, please click the green button labeled '+ Import'
+
+In the 'Grafana.com Dashboard' field, please enter '6417'. Data should autofill as you tab into the next box.
+
+Before you can import the Dashboard, please press the blue 'Change' button in the 'Unique Identifier (uid)' line. Then select the name of your Prometheus datasource from the dropdown menu below and press 'Import' at the bottom.
+
+You should then see a dashboard displayed with gauge panels in a row across the top.
 
 *Based on the Bill Shetti's contianer-fitcycle
 http://github.com/bshetti/container-fitcycle*
