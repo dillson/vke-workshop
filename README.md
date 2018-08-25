@@ -33,7 +33,7 @@ For region please use the value directed by the staff (either us-west-2 or us-ea
 
 If it isn't already installed on your machine, please install the kubectl command line package for managing Kubernetes.
 
-Kubectl and be pulled down in a variety of ways, including from the VKE UI (on the page for a smartcluster, select actions and then select the correct operating system for your device).
+Kubectl can be pulled down in a variety of ways, including from the VKE UI (on the page for a smartcluster, select actions and then select the correct operating system for your device).
 
 For Helm, please see the following page: [Helm](https://github.com/helm/helm)
 
@@ -83,7 +83,7 @@ The result of this command provides the base URL used to access exposed services
 
 To test, enter that URL with a trailing '/' into a web browser. This should bring up the Fitcycle web frontend page.
 
-Navingating to '<cluster address>/api/v1.0/signups' should return JSON readout of the sample record in the MySQL database.
+Navigating to '<cluster address>/api/v1.0/signups' should return JSON readout of the sample record in the MySQL database.
 
 If you do not get these results, please ask the workshop staff for help.
 
