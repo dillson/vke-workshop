@@ -23,7 +23,7 @@ On the resulting page, please select 'API tokens' the third option in the horizo
 To create a VKE cluster, run the following command:
 
 ```yaml
-vke cluster create --name <name> --region <region>
+vke cluster create --name <name> --region <region> -f sharedfolder -pr sharedproject
 ```
 
 For region please use the value directed by the staff (either us-west-2 or us-east-1)
