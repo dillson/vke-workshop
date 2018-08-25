@@ -114,12 +114,12 @@ To watch the pods create and run, run the 'kubectl get pods -w' command while th
 To ensure Prometheus in correctly deployed, navigate to the following in a browser:
 
 ```yaml
-http://<cluster address>:34010
+http://<cluster address>:30410
 ```
 
 This should bring up the Prometheus UI. Navigate to 'Status' -> Targets in the upper bar to verify that all of the components are reporting correctly.
 
-Then go to 'Graph' in the top navigation bar, select a metric, and push the 'Add Graph' button. You should see both console return data and a basic graphical execution.
+Then go to 'Graph' in the top navigation bar, select a metric, push the 'Execute' button, and then push the 'Add Graph' button. You should see both console return data and a basic graphical execution.
 
 # Grafana
 
