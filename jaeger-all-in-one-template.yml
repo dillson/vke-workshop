@@ -66,12 +66,12 @@ items:
   spec:
     ports:
       - name: query-http
-        port: 80
         protocol: TCP
-        targetPort: 16686
+        port: 16686
+        nodePort: 30430
     selector:
       jaeger-infra: jaeger-pod
-    type: LoadBalancer
+    type: NodePort
 - apiVersion: v1
   kind: Service
   metadata:
