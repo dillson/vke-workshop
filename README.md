@@ -33,7 +33,7 @@ For region please use the value directed by the staff (either us-west-2 or us-ea
 
 If it isn't already installed on your machine, please install the kubectl command line package for managing Kubernetes.
 
-Kubectl and be pulled down in a variety of ways, including from the VKE UI (on the page for a smartcluster, select actions and then select the correct operating system for your device).
+Kubectl can be pulled down in a variety of ways, including from the VKE UI (on the page for a smartcluster, select actions and then select the correct operating system for your device).
 
 For Helm, please see the following page: [Helm](https://github.com/helm/helm)
 
@@ -83,7 +83,7 @@ The result of this command provides the base URL used to access exposed services
 
 To test, enter that URL with a trailing '/' into a web browser. This should bring up the Fitcycle web frontend page.
 
-Navingating to '<cluster address>/api/v1.0/signups' should return JSON readout of the sample record in the MySQL database.
+Navigating to '<cluster address>/api/v1.0/signups' should return JSON readout of the sample record in the MySQL database.
 
 If you do not get these results, please ask the workshop staff for help.
 
@@ -117,12 +117,12 @@ To watch the pods create and run, run the 'kubectl get pods -w' command while th
 To ensure Prometheus in correctly deployed, navigate to the following in a browser:
 
 ```yaml
-http://<cluster address>:34010
+http://<cluster address>:30410
 ```
 
 This should bring up the Prometheus UI. Navigate to 'Status' -> Targets in the upper bar to verify that all of the components are reporting correctly.
 
-Then go to 'Graph' in the top navigation bar, select a metric, and push the 'Add Graph' button. You should see both console return data and a basic graphical execution.
+Then go to 'Graph' in the top navigation bar, select a metric, push the 'Execute' button, and then push the 'Add Graph' button. You should see both console return data and a basic graphical execution.
 
 # Grafana
 
