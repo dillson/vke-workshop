@@ -9,7 +9,7 @@ Download the CLI package from the button in the bottom left corner of the screen
 Use the following format, replacing organization-id with your organization ID and refresh-token with your refresh token.
 
 ```yaml
-vke account login -t *organization-id* -r *refresh-token*
+vke account login -t organization-id -r refresh-token
 ```
 
 The organization ID is available in the VKE UI by clicking on the box showing your username and organization name in the upper right portion of the screen. Please click on the Org ID to get the long form and use that long form in the command.
