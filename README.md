@@ -97,7 +97,10 @@ To setup Tiller (the cluster side component of Helm) in your VKE cluster, run th
 
 ```yaml
 helm init
+helm repo update
 ```
+
+The 'helm repo update' command pulls the most recent version of the charts in any repositiories mapped into Helm (stable by default) so as to avoid installing older versions of these components, which might introduce issues.
 
 ## Install Prometheus from a Helm chart
 
